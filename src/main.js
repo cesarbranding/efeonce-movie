@@ -11,7 +11,7 @@ async function getTrendingMoviesPreview() {
   const {data} = await api('trending/movie/day');
   const movies = data.results;
   movies.forEach(movie => {
-    const trendingPreviewMoviesContainer = document.querySelector('#trendingPreview .trendingPreview-movieList'); // Crea un div contenedor de películas en el HTML
+    const trendingMoviesPreviewList = document.querySelector('#trendingPreview .trendingPreview-movieList'); // Crea un div contenedor de películas en el HTML
     const movieContainer = document.createElement('div'); // Crea un div en el HTML
     movieContainer.classList.add('movie-container'); // Agrega la clase movie-container al div
 
@@ -22,18 +22,18 @@ async function getTrendingMoviesPreview() {
     `https://image.tmdb.org/t/p/w300${movie.poster_path}`,); // Agrega el atributo src al img
 
     movieContainer.appendChild(movieImg); // Agrega el img al div
-    trendingPreviewMoviesContainer.appendChild(movieContainer); // Agrega el div al contenedor de películas
+    trendingMoviesPreviewList.appendChild(movieContainer); // Agrega el div al contenedor de películas
   });
 }
 
-getTrendingMoviesPreview();
+
 
 async function getCategoriesPreview() {
     const {data} = await api('genre/movie/list');
     
     const categories = data.genres;
     categories.forEach(category => {
-      const previewCategoriesContainer = document.querySelector('#categoriesPreview .categoriesPreview-list'); // Crea un div contenedor de categorías de películas en el HTML
+      const categoriesPreviewList = document.querySelector('#categoriesPreview .categoriesPreview-list'); // Crea un div contenedor de categorías de películas en el HTML
       const categoryContainer = document.createElement('div'); // Crea un div en el HTML
       categoryContainer.classList.add('category-container'); // Agrega la clase category-container al div
   
@@ -43,10 +43,10 @@ async function getCategoriesPreview() {
       const categoryTitleText = document.createTextNode(category.name) // Agrega el texto de la categoría al h3
       categoryTitle.appendChild(categoryTitleText); // Agrega el h3 al div
       categoryContainer.appendChild(categoryTitle); // Agrega el div al contenedor de categorías de películas
-      previewCategoriesContainer.appendChild(categoryContainer); // Agrega el div al contenedor de categorías de películas
+      categoriesPreviewList.appendChild(categoryContainer); // Agrega el div al contenedor de categorías de películas
     });
   }
 
-getCategoriesPreview();
+
 
 
