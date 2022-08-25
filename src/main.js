@@ -90,8 +90,6 @@ async function getCategoriesPreview() {
     createCategories(categories, categoriesPreviewList);
   }
 
-
-
 async function getMoviesByCategory(id) {
     const {data} = await api('discover/movie', {
         params: {
