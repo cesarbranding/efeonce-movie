@@ -139,6 +139,7 @@ button {
 
 .header-title {
   margin-bottom: 16px;
+  cursor: pointer;
 }
 
 .header-arrow {
@@ -283,6 +284,11 @@ button {
   z-index: 1;
   position: absolute;
   background-color: var(--purple-light-1);
+  width: 100%;
+}
+
+img {
+  max-width: 100%;
 }
 
 .movieDetail-title {
@@ -290,6 +296,8 @@ button {
   width: 80%;
   margin: 0 0 16px 0;
   padding: 0;
+  font-size: 24px;
+  font-weight: var(--font-weight-text2);
 }
 
 .movieDetail-score {
@@ -297,6 +305,8 @@ button {
   text-align: right;
   width: 18%;
   font-weight: var(--font-weight-title2);
+  font-size: 24px;
+  margin: 0 0 16px 0;
 }
 .movieDetail-score::before {
   content: '★';
@@ -311,6 +321,7 @@ button {
 .relatedMovies-container {
   margin-top: 24px;
   height: 216px;
+  overflow-x: scroll;
 }
 
 .relatedMovies-title {
@@ -356,4 +367,8 @@ footer {
 /* Navigation */
 .inactive {
   display: none;
+}
+
+.active {
+  display: block;
 }

@@ -8,9 +8,14 @@ trendingBtn.addEventListener('click', () => {
     });
 
 arrowBtn.addEventListener('click', () => {
+    history.back();
     location.hash = '#';
     });
 
+headerTitle.addEventListener('click', () => {
+    location.hash = '#';
+    });
+    
 window.addEventListener('DOMContentLoaded', navigator, false);
 window.addEventListener('hashchange', navigator, false);
 
@@ -98,7 +103,10 @@ function movieDetailsPage() {
     genericSection.classList.add('inactive'); // Mostrando el contenedor de películas en la homepage
     movieDetailSection.classList.remove('inactive'); // Mostrando el contenedor de detalles de película en la homepage
 
+    const [_, movieId] = location.hash.split("="); // ['#movie', 'id']
+    getMovieDetails(movieId);
     smoothscroll();
+    
 }
 
 function searchPage() {
@@ -135,4 +143,7 @@ function trendsPage() {
     genericSection.classList.remove('inactive'); // Escondiendo el contenedor de películas en la homepage
     movieDetailSection.classList.add('inactive'); // Escondiendo el contenedor de detalles de película en la homepage
 
+    headerCategoryTitle.innerHTML = 'Tendencias';
+
+    getTrendingMovies();
 }
