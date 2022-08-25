@@ -10,9 +10,16 @@ const api = axios.create({
 
 // Utils
 
-
-
-function createMovies(movies, container) {
+const lazyLoader = new IntersectionObserver((entries) => { // IntersectionObserver es una interfaz de la API de observadores de intersección que permite registrar un conjunto de elementos y observar sus intersecciones con otro elemento o el viewport del navegador. Cuando una intersección ocurre, el observador recibe una notificación.
+    entries.forEach((entry) => { // entries es un array de objetos IntersectionObserverEntry que representan las intersecciones de los elementos observados con el elemento objetivo.
+        if (entry.isIntersecting) { // isIntersecting es un booleano que indica si el elemento objetivo está intersectando el elemento observado.
+            const url = entry.target.getAttribute('data-img'); // getAttribute() devuelve el valor del atributo especificado de un elemento, o null si el atributo no existe.
+            entry.target.setAttribute('src', url); // setAttribute() establece el valor del atributo especificado en un elemento.
+            lazyLoader.unobserve(entry.target); // unobserve() elimina el elemento especificado del conjunto de elementos observados por el observador.
+        }
+    });
+});
+function createMovies(movies, container, laziLoad = false) {
     container.innerHTML = '';
     movies.forEach(movie => {
       const movieContainer = document.createElement('div'); // Crea un div en el HTML
@@ -25,8 +32,21 @@ function createMovies(movies, container) {
       const movieImg = document.createElement('img'); // Crea un img en el HTML
       movieImg.classList.add('movie-img'); // Agrega la clase movie-img al img
       movieImg.setAttribute('alt', movie.title); // Agrega el atributo alt al img
-      movieImg.setAttribute('src',
+      movieImg.setAttribute( laziLoad ? 'data-img' : 'src',
       `https://image.tmdb.org/t/p/w300${movie.poster_path}`,); // Agrega el atributo src al img
+
+      movieImg.addEventListener('error', () => {
+        movieImg.setAttribute(
+          'src',
+          'https://static.platzi.com/static/images/error/img404.png',
+        );
+      })
+      
+
+      if(laziLoad) {
+        lazyLoader.observe(movieImg); // Agrega el elemento al observador de intersección
+      }
+
   
       movieContainer.appendChild(movieImg); // Agrega el img al div
       container.appendChild(movieContainer); // Agrega el div al contenedor de películas
@@ -60,7 +80,7 @@ async function getTrendingMoviesPreview() {
   const {data} = await api('trending/movie/day');
   const movies = data.results;
 
-  createMovies(movies, trendingMoviesPreviewList);
+  createMovies(movies, trendingMoviesPreviewList, true);
 }
 
 async function getCategoriesPreview() {
@@ -78,7 +98,7 @@ async function getMoviesByCategory(id) {
             with_genres: id,}
     });
     const movies = data.results;
-    createMovies(movies, genericSection);
+    createMovies(movies, genericSection, true);
   }
 
   // async function getMoviesBySearch(query) {
@@ -101,7 +121,7 @@ async function getMoviesByCategory(id) {
         },
     });
         const movies = data.results;
-        createMovies(movies, genericSection);
+        createMovies(movies, genericSection, true);
   }
 
 
@@ -133,6 +153,9 @@ async function getMoviesByCategory(id) {
     getRelatedMovies(id)
     
   }
+
+
+
 
   
 
