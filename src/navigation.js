@@ -1,5 +1,6 @@
 searchFormBtn.addEventListener('click', () => {
-    location.hash = '#search=';
+    location.hash = '#search=' + searchFormInput.value;
+
     });
 
 trendingBtn.addEventListener('click', () => {
@@ -29,6 +30,14 @@ function navigator() {
     }
 
     location.hash = location.hash.replace("#trends", "#search=");
+}
+
+function smoothscroll() {
+    const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    if (currentScroll > 0) {
+        window.requestAnimationFrame(smoothscroll);
+        window.scrollTo (0,currentScroll - (currentScroll/5));
+    }
 }
 
 function homePage() {
@@ -71,7 +80,7 @@ function categoriesPage() {
     headerCategoryTitle.textContent = categoryName;
     
     getMoviesByCategory(categoryId);
-
+    smoothscroll();
 }
 
 function movieDetailsPage() {
@@ -89,6 +98,7 @@ function movieDetailsPage() {
     genericSection.classList.add('inactive'); // Mostrando el contenedor de películas en la homepage
     movieDetailSection.classList.remove('inactive'); // Mostrando el contenedor de detalles de película en la homepage
 
+    smoothscroll();
 }
 
 function searchPage() {
@@ -98,7 +108,7 @@ function searchPage() {
     arrowBtn.classList.remove('inactive'); // Mostrando el botón de volver en la homepage
     arrowBtn.classList.remove('header-arrow--white'); // Mostrando el botón de volver en la homepage
     headerTitle.classList.add('inactive'); // Ocultando el título de la homepage
-    headerCategoryTitle.classList.remove('inactive'); // Mostrando el título de categoría en la homepage
+    headerCategoryTitle.classList.add('inactive'); // Mostrando el título de categoría en la homepage
     searchForm.classList.remove('inactive'); // Ocultando el formulario de búsqueda en la homepage
 
     trendingPreviewSection.classList.add('inactive'); // Ocultando el preview de películas en tendencia en la homepage
@@ -106,6 +116,8 @@ function searchPage() {
     genericSection.classList.remove('inactive'); // Escondiendo el contenedor de películas en la homepage
     movieDetailSection.classList.add('inactive'); // Escondiendo el contenedor de detalles de película en la homepage
 
+    const [_, query] = location.hash.split("="); // ['#search', 'query']
+    getMoviesBySearch(query);
 }
 
 function trendsPage() {
