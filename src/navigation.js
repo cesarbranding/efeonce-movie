@@ -34,7 +34,7 @@ function navigator() {
         homePage();
     }
 
-    location.hash = location.hash.replace("#trends", "#search=");
+    // location.hash = location.hash.replace("#trends", "#search=");
 }
 
 function smoothscroll() {
@@ -110,23 +110,25 @@ function movieDetailsPage() {
 }
 
 function searchPage() {
-    
-    headerSection.classList.remove('header-container--long'); // Remueve la clase header-container--long del header
-    headerSection.style.background = ''; // Remueve el background del header en Home
-    arrowBtn.classList.remove('inactive'); // Mostrando el botón de volver en la homepage
-    arrowBtn.classList.remove('header-arrow--white'); // Mostrando el botón de volver en la homepage
-    headerTitle.classList.add('inactive'); // Ocultando el título de la homepage
-    headerCategoryTitle.classList.add('inactive'); // Mostrando el título de categoría en la homepage
-    searchForm.classList.remove('inactive'); // Ocultando el formulario de búsqueda en la homepage
-
-    trendingPreviewSection.classList.add('inactive'); // Ocultando el preview de películas en tendencia en la homepage
-    categoriesPreviewSection.classList.add('inactive'); // Ocultando la sección de categorías de películas en la homepage
-    genericSection.classList.remove('inactive'); // Escondiendo el contenedor de películas en la homepage
-    movieDetailSection.classList.add('inactive'); // Escondiendo el contenedor de detalles de película en la homepage
-
-    const [_, query] = location.hash.split("="); // ['#search', 'query']
+    console.log('Search!!');
+  
+    headerSection.classList.remove('header-container--long');
+    headerSection.style.background = '';
+    arrowBtn.classList.remove('inactive');
+    arrowBtn.classList.remove('header-arrow--white');
+    headerTitle.classList.add('inactive');
+    headerCategoryTitle.classList.add('inactive');
+    searchForm.classList.remove('inactive');
+  
+    trendingPreviewSection.classList.add('inactive');
+    categoriesPreviewSection.classList.add('inactive');
+    genericSection.classList.remove('inactive');
+    movieDetailSection.classList.add('inactive');
+  
+    // ['#search', 'platzi']
+    const [_, query] = location.hash.split('=');
     getMoviesBySearch(query);
-}
+  }
 
 function trendsPage() {
     

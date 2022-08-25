@@ -112,14 +112,15 @@ async function getMoviesByCategory(id) {
 
   //Busqueda de Películas
 
-  async function getMoviesBySearch() {
-    const {data} = await api('search/movie', {
-        params: {
-            query: searchFormInput.value,
-        },
+  async function getMoviesBySearch(query) {
+    const { data } = await api('search/movie', {
+      params: {
+        query,
+      },
     });
-        const movies = data.results;
-        createMovies(movies, genericSection, true);
+    const movies = data.results;
+  
+    createMovies(movies, genericSection);
   }
 
 
