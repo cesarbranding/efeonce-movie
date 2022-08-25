@@ -22,7 +22,7 @@ function navigator() {
         searchPage();
     } else if (location.hash.startsWith("#movie=")) {
         movieDetailsPage();
-    } else if (location.hash.startsWith("#categories=")) {
+    } else if (location.hash.startsWith("#category=")) {
         categoriesPage();
     } else {
         homePage();
@@ -64,6 +64,13 @@ function categoriesPage() {
     categoriesPreviewSection.classList.add('inactive'); // Ocultando la sección de categorías de películas en la homepage
     genericSection.classList.remove('inactive'); // Escondiendo el contenedor de películas en la homepage
     movieDetailSection.classList.add('inactive'); // Escondiendo el contenedor de detalles de película en la homepage
+
+    const [_, categoryData] = location.hash.split("="); // ['#category', 'id-name']
+    const [categoryId, categoryName] = categoryData.split("-"); // ['id', 'name']
+
+    headerCategoryTitle.textContent = categoryName;
+    
+    getMoviesByCategory(categoryId);
 
 }
 
