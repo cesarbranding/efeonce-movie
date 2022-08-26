@@ -103,6 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-#Secret Key
+# #Secret Key
 
-src/secrets.js
+# src/secrets.js
