@@ -19,8 +19,15 @@ const lazyLoader = new IntersectionObserver((entries) => { // IntersectionObserv
         }
     });
 });
-function createMovies(movies, container, laziLoad = false) {
-    container.innerHTML = '';
+function createMovies(movies, container,
+    {
+      laziLoad = false,
+      clean = true
+    } = {}) 
+    {
+    if (clean) {
+      container.innerHTML = '';
+    }
     movies.forEach(movie => {
       const movieContainer = document.createElement('div'); // Crea un div en el HTML
       movieContainer.classList.add('movie-container'); // Agrega la clase movie-container al div
@@ -127,8 +134,42 @@ async function getMoviesByCategory(id) {
   async function getTrendingMovies() {
     const {data} = await api('trending/movie/day');
     const movies = data.results;
-    createMovies(movies, genericSection);
+    createMovies(movies, genericSection, {laziLoad: true, clean: true});
+
+    // const btnLoadMore = document.createElement('button'); // Crea un botón en el HTML de Trending Movies
+    // btnLoadMore.innerHTML = 'Cargar más'; // Agrega el texto Load More al botón
+    // btnLoadMore.classList.add('btn-load-more'); // Agrega la clase btn-load-more al botón
+    // btnLoadMore.addEventListener('click', getPaginatedTrendingMovies); // Agrega el evento click al botón {
+    // genericSection.appendChild(btnLoadMore); // Agrega el botón al contenedor de Trending Movies
   }
+
+  
+
+  //  window.addEventListener('scroll', getPaginatedTrendingMovies); Agrega el evento scroll a la ventana
+
+  async function getPaginatedTrendingMovies() { // Función para obtener las películas paginadas de Trending Movies
+    const { scrollTop, scrollHeight, clientHeight} = document.documentElement;
+
+    const scrollIsBottom = scrollTop + clientHeight >= scrollHeight - 15 && page++; // Si el scroll está en el fondo, aumenta el número de página
+
+    if(scrollIsBottom) { // Si el scroll está en el fondo, llama a la función getTrendingMovies()
+      
+      const {data} = await api('trending/movie/day', {
+        params: {
+          page,
+        },
+      });
+      const movies = data.results;
+      createMovies(movies, genericSection, {laziLoad: true, clean: false});
+    } // Si el scroll está en el fondo, llama a la función getTrendingMovies()
+    
+    // const btnLoadMore = document.createElement('button'); // Crea un botón en el HTML de Trending Movies
+    // btnLoadMore.innerHTML = 'Cargar más'; // Agrega el texto Load More al botón
+    // btnLoadMore.classList.add('btn-load-more'); // Agrega la clase btn-load-more al botón
+    // btnLoadMore.addEventListener('click', getPaginatedTrendingMovies); // Agrega el evento click al botón {
+    // genericSection.appendChild(btnLoadMore); // Agrega el botón al contenedor de Trending Movies
+  }
+
 
   async function getRelatedMovies(id) {
     const {data} = await api(`movie/${id}/similar`);

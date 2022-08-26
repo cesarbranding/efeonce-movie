@@ -1,3 +1,5 @@
+let page = 1;
+
 searchFormBtn.addEventListener('click', () => {
     location.hash = '#search=' + searchFormInput.value;
 
@@ -18,6 +20,7 @@ headerTitle.addEventListener('click', () => {
     
 window.addEventListener('DOMContentLoaded', navigator, false);
 window.addEventListener('hashchange', navigator, false);
+window.addEventListener('scroll', getPaginatedTrendingMovies);
 
 function navigator() {
     
