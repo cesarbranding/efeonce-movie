@@ -103,21 +103,40 @@ async function getMoviesByCategory(id) {
             with_genres: id,}
     });
     const movies = data.results;
-    createMovies(movies, genericSection, true);
+    maxPage = data.total_pages;
+    createMovies(movies, genericSection, {laziLoad: true});
   }
 
-  // async function getMoviesBySearch(query) {
-  //   const {data} = await api('search/movie', {
-  //       params: {
-  //           query,
-  //       },
-  //   });
-  //       const movies = data.results;
-  //       createMovies(movies, genericSection);
-  // }
+  function getPaginatedMoviesByCategory(id) {
+    return async function () {
+      const {
+        scrollTop,
+        scrollHeight,
+        clientHeight
+      } = document.documentElement;
+      
+      const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+      const pageIsNotMax = page < maxPage;
+    
+      if (scrollIsBottom && pageIsNotMax) {
+        page++;
+        const { data } = await api('discover/movie', {
+          params: {
+            with_genres: id,
+            page,
+          },
+        });
+        const movies = data.results;
+      
+        createMovies(
+          movies,
+          genericSection,
+          { lazyLoad: true, clean: false },
+        );
+      }
+    }
+  }
 
-
-  //Busqueda de Películas
 
   async function getMoviesBySearch(query) {
     const { data } = await api('search/movie', {
@@ -126,10 +145,47 @@ async function getMoviesByCategory(id) {
       },
     });
     const movies = data.results;
-  
+    maxPage = data.total_pages;
     createMovies(movies, genericSection);
   }
 
+  function getPaginatedMovieBySearch(query) { 
+    return async function () {
+      const {
+        scrollTop,
+        scrollHeight,
+        clientHeight
+      } = document.documentElement;
+      
+      const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+      const pageIsNotMax = page < maxPage;
+    
+      if (scrollIsBottom && pageIsNotMax) {
+        page++;
+        const { data } = await api('search/movie', {
+          params: {
+            query,
+            page,
+          },
+        });
+        const movies = data.results;
+      
+        createMovies(
+          movies,
+          genericSection,
+          { lazyLoad: true, clean: false },
+        );
+      }
+    }
+  }
+  
+  async function getTrendingMovies() {
+    const { data } = await api('trending/movie/day');
+    const movies = data.results;
+    maxPage = data.total_pages;
+  
+    createMovies(movies, genericSection, { lazyLoad: true, clean: true });
+  }
 
   async function getTrendingMovies() {
     const {data} = await api('trending/movie/day');

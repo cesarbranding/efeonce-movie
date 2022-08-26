@@ -1,4 +1,6 @@
+let maxPage;
 let page = 1;
+let infiniteScroll;
 
 searchFormBtn.addEventListener('click', () => {
     location.hash = '#search=' + searchFormInput.value;
@@ -20,10 +22,14 @@ headerTitle.addEventListener('click', () => {
     
 window.addEventListener('DOMContentLoaded', navigator, false);
 window.addEventListener('hashchange', navigator, false);
-window.addEventListener('scroll', getPaginatedTrendingMovies);
+window.addEventListener('scroll', infiniteScroll, false);
 
 function navigator() {
     
+    if(infiniteScroll) { // Si existe la función de scroll infinito, la elimina
+        window.removeEventListener('scroll', infiniteScroll, {passive: false}); // Elimina el evento de scroll infinito
+        infiniteScroll = undefined; // Elimina la función de scroll infinito
+    }
 
     if (location.hash.startsWith("#trends")) {
         trendsPage();
@@ -37,6 +43,9 @@ function navigator() {
         homePage();
     }
 
+    if (infiniteScroll) {
+        window.addEventListener('scroll', infiniteScroll, { passive: false }); // Agrega el evento de scroll infinito
+    }
     // location.hash = location.hash.replace("#trends", "#search=");
 }
 
@@ -82,13 +91,15 @@ function categoriesPage() {
     genericSection.classList.remove('inactive'); // Escondiendo el contenedor de películas en la homepage
     movieDetailSection.classList.add('inactive'); // Escondiendo el contenedor de detalles de película en la homepage
 
-    const [_, categoryData] = location.hash.split("="); // ['#category', 'id-name']
-    const [categoryId, categoryName] = categoryData.split("-"); // ['id', 'name']
+     // ['#category', 'id-name']
+    const [_, categoryData] = location.hash.split('=');
+    const [categoryId, categoryName] = categoryData.split('-');
 
-    headerCategoryTitle.textContent = categoryName;
+    headerCategoryTitle.innerHTML = categoryName;
     
     getMoviesByCategory(categoryId);
     smoothscroll();
+    infiniteScroll = getPaginatedMoviesByCategory(categoryId);
 }
 
 function movieDetailsPage() {
@@ -131,6 +142,9 @@ function searchPage() {
     // ['#search', 'platzi']
     const [_, query] = location.hash.split('=');
     getMoviesBySearch(query);
+  
+    infiniteScroll = getPaginatedMovieBySearch(query);
+    smoothscroll();
   }
 
 function trendsPage() {
@@ -151,4 +165,5 @@ function trendsPage() {
     headerCategoryTitle.innerHTML = 'Tendencias';
 
     getTrendingMovies();
+    infiniteScroll = getPaginatedTrendingMovies;
 }
