@@ -31,24 +31,35 @@ function createMovies(movies, container,
     movies.forEach(movie => {
       const movieContainer = document.createElement('div'); // Crea un div en el HTML
       movieContainer.classList.add('movie-container'); // Agrega la clase movie-container al div
-      movieContainer.addEventListener('click', () => {
-        location.hash = `#movie=${movie.id}`;
-        getMovieDetails(movie.id);
-        
-      });
+      
       const movieImg = document.createElement('img'); // Crea un img en el HTML
       movieImg.classList.add('movie-img'); // Agrega la clase movie-img al img
       movieImg.setAttribute('alt', movie.title); // Agrega el atributo alt al img
       movieImg.setAttribute( laziLoad ? 'data-img' : 'src',
       `https://image.tmdb.org/t/p/w300${movie.poster_path}`,); // Agrega el atributo src al img
 
+      movieContainer.addEventListener('click', () => {
+        location.hash = `#movie=${movie.id}`;
+        getMovieDetails(movie.id);
+        
+      });
+
       movieImg.addEventListener('error', () => {
         movieImg.setAttribute(
           'src',
           'https://static.platzi.com/static/images/error/img404.png',
         );
-      })
+      });
       
+      const movieBtn = document.createElement('button'); // Crea un button en el HTML
+      movieBtn.classList.add('movie-btn'); // Agrega la clase movie-btn al button
+      movieBtn.addEventListener('click', () => {
+      movieBtn.classList.toggle('movie-btn--liked');
+      
+      // movieBtn.innerHTML = movieBtn.classList.contains('movie-btn--liked') ? '❤️' : '🤍'; // Agrega el texto al button
+      movieBtn
+      
+      });
 
       if(laziLoad) {
         lazyLoader.observe(movieImg); // Agrega el elemento al observador de intersección
@@ -56,6 +67,7 @@ function createMovies(movies, container,
 
   
       movieContainer.appendChild(movieImg); // Agrega el img al div
+      movieContainer.appendChild(movieBtn); // Agrega el button al div
       container.appendChild(movieContainer); // Agrega el div al contenedor de películas
     });
   }
