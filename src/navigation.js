@@ -69,6 +69,7 @@ function homePage() {
 
     trendingPreviewSection.classList.remove('inactive'); // Mostrando el preview de películas en tendencia en la homepage
     categoriesPreviewSection.classList.remove('inactive'); // Mostrando el preview de categorías de películas en la homepage
+    likedMoviesSection.classList.remove('inactive'); // Mostrando el preview de películas en tendencia en la homepage
     genericSection.classList.add('inactive'); // Escondiendo el contenedor de películas en la homepage
     movieDetailSection.classList.add('inactive'); // Escondiendo el contenedor de detalles de película en la homepage
     
@@ -89,6 +90,7 @@ function categoriesPage() {
 
     trendingPreviewSection.classList.add('inactive'); // Ocultando el preview de películas en tendencia en la homepage
     categoriesPreviewSection.classList.add('inactive'); // Ocultando la sección de categorías de películas en la homepage
+    likedMoviesSection.classList.add('inactive'); // Ocultando el preview de películas en tendencia en la homepage
     genericSection.classList.remove('inactive'); // Escondiendo el contenedor de películas en la homepage
     movieDetailSection.classList.add('inactive'); // Escondiendo el contenedor de detalles de película en la homepage
 
@@ -115,6 +117,7 @@ function movieDetailsPage() {
 
     trendingPreviewSection.classList.add('inactive'); // Ocultando el preview de películas en tendencia en la homepage
     categoriesPreviewSection.classList.add('inactive'); // Ocultando la sección de categorías de películas en la homepage
+    likedMoviesSection.classList.add('inactive'); // Ocultando el preview de películas en tendencia en la homepage
     genericSection.classList.add('inactive'); // Mostrando el contenedor de películas en la homepage
     movieDetailSection.classList.remove('inactive'); // Mostrando el contenedor de detalles de película en la homepage
 
@@ -137,6 +140,7 @@ function searchPage() {
   
     trendingPreviewSection.classList.add('inactive');
     categoriesPreviewSection.classList.add('inactive');
+    likedMoviesSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
   
@@ -160,6 +164,7 @@ function trendsPage() {
 
     trendingPreviewSection.classList.add('inactive'); // Ocultando el preview de películas en tendencia en la homepage
     categoriesPreviewSection.classList.add('inactive'); // Ocultando la sección de categorías de películas en la homepage
+    likedMoviesSection.classList.add('inactive'); // Ocultando el preview de películas en tendencia en la homepage
     genericSection.classList.remove('inactive'); // Escondiendo el contenedor de películas en la homepage
     movieDetailSection.classList.add('inactive'); // Escondiendo el contenedor de detalles de película en la homepage
 

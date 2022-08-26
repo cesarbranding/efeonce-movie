@@ -6,6 +6,7 @@ const api = axios.create({
         'Content-Type': 'application/json;charset=utf-8'},
     params: {
         'api_key': API_KEY,
+        "language": navigator.language || "es-ES",
     },
     });
 
@@ -83,10 +84,12 @@ function createMovies(movies, container,
       
       const movieBtn = document.createElement('button'); // Crea un button en el HTML
       movieBtn.classList.add('movie-btn'); // Agrega la clase movie-btn al button
+      likedMoviesList()[movie.id] ? movieBtn.classList.add('liked') : movieBtn.classList.remove('liked'); // Agrega la clase liked al button si la película está en la lista de favoritos
       movieBtn.addEventListener('click', (e) => {
       movieBtn.classList.toggle('movie-btn--liked');
       e.stopPropagation();
       likeMovie(movie)
+      getLikedMovies();
       
       // movieBtn.innerHTML = movieBtn.classList.contains('movie-btn--liked') ? '❤️' : '🤍'; // Agrega el texto al button
       movieBtn
@@ -305,6 +308,9 @@ async function getMoviesByCategory(id) {
     
     console.log(likedMovies)
   }
+
+
+
 
   
 
