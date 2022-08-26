@@ -134,13 +134,9 @@ async function getMoviesByCategory(id) {
   async function getTrendingMovies() {
     const {data} = await api('trending/movie/day');
     const movies = data.results;
+    maxPage = data.total_pages;
     createMovies(movies, genericSection, {laziLoad: true, clean: true});
 
-    // const btnLoadMore = document.createElement('button'); // Crea un botón en el HTML de Trending Movies
-    // btnLoadMore.innerHTML = 'Cargar más'; // Agrega el texto Load More al botón
-    // btnLoadMore.classList.add('btn-load-more'); // Agrega la clase btn-load-more al botón
-    // btnLoadMore.addEventListener('click', getPaginatedTrendingMovies); // Agrega el evento click al botón {
-    // genericSection.appendChild(btnLoadMore); // Agrega el botón al contenedor de Trending Movies
   }
 
   
@@ -152,7 +148,9 @@ async function getMoviesByCategory(id) {
 
     const scrollIsBottom = scrollTop + clientHeight >= scrollHeight - 15 && page++; // Si el scroll está en el fondo, aumenta el número de página
 
-    if(scrollIsBottom) { // Si el scroll está en el fondo, llama a la función getTrendingMovies()
+    const pageIsNotMax = page < maxPage; // Si el número de página no es el máximo, aumenta el número de página
+
+    if(scrollIsBottom && pageIsNotMax) { // Si el scroll está en el fondo y el número de página no es el máximo, llama a la función getPaginatedTrendingMovies
       
       const {data} = await api('trending/movie/day', {
         params: {
