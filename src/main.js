@@ -1,3 +1,5 @@
+
+// Data
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org/3',
     headers: {
@@ -6,6 +8,34 @@ const api = axios.create({
         'api_key': API_KEY,
     },
     });
+
+    function likedMoviesList() {
+      const item = JSON.parse(localStorage.getItem('liked_movies'));
+      let movies;
+    
+      if (item) {
+        movies = item;
+      } else {
+        movies = {};
+      }
+      
+      return movies;
+    }
+    
+    function likeMovie(movie) {
+      // movie.id
+      const likedMovies = likedMoviesList();
+    
+      console.log(likedMovies)
+      
+      if (likedMovies[movie.id]) {
+        likedMovies[movie.id] = undefined;
+      } else {
+        likedMovies[movie.id] = movie;
+      }
+    
+      localStorage.setItem('liked_movies', JSON.stringify(likedMovies));
+    }
 
 
 // Utils
@@ -53,8 +83,10 @@ function createMovies(movies, container,
       
       const movieBtn = document.createElement('button'); // Crea un button en el HTML
       movieBtn.classList.add('movie-btn'); // Agrega la clase movie-btn al button
-      movieBtn.addEventListener('click', () => {
+      movieBtn.addEventListener('click', (e) => {
       movieBtn.classList.toggle('movie-btn--liked');
+      e.stopPropagation();
+      likeMovie(movie)
       
       // movieBtn.innerHTML = movieBtn.classList.contains('movie-btn--liked') ? '❤️' : '🤍'; // Agrega el texto al button
       movieBtn
@@ -260,8 +292,19 @@ async function getMoviesByCategory(id) {
     
   }
 
+  // function getLikedMovies() {
+  //   const likedMovies = JSON.parse(localStorage.getItem('likedMovies')) || [];
+  //   createMovies(likedMovies, likedMoviesListArticle, { clean: true });
+  // }
 
-
+  function getLikedMovies() { // Función para obtener las películas favoritas
+    const likedMovies = likedMoviesList(); // Obtiene las películas favoritas del localStorage
+    const moviesArray = Object.values(likedMovies); // Convierte el objeto de películas favoritas en un array
+  
+    createMovies(moviesArray, likedMoviesListArticle, { lazyLoad: true, clean: true }); // Crea las películas favoritas
+    
+    console.log(likedMovies)
+  }
 
   
 
